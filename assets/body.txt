@@ -1,0 +1,3 @@
+Hello world, Mr <%name%>
+This content is written in plain text.
+This is sent to <%email%>.
