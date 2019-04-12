@@ -10,6 +10,7 @@
         "econic/csvreader": "^1.0",
         "exriot/key-value-profile": "^1.0",
         "laravel-zero/framework": "5.7.*",
+        "michelf/php-markdown": "^1.8",
         "phpunit/php-text-template": "^1.2",
         "swiftmailer/swiftmailer": "^6.1"
     },
