@@ -51,14 +51,18 @@ class TaskCommand extends Command
 
         $subject_file = Configuration::getSubjectFile();
         $body_file = Configuration::getBodyTextFile();
+        $body_html_file = Configuration::getBodyHtmlFile();
+        if(!file_exists($body_html_file)) $body_html_file = null;
         for($i=1, $k=count($csv); $i<$k; $i++){
             $line = $csv[$i];
             var_dump($line);
 
             $subject = new \Text_Template($subject_file, '<%', '%>');
             $body = new \Text_Template($body_file, '<%', '%>');
+            $body_html = $body_html_file ? new \Text_Template($body_html_file, '<%', '%>') : null;
             $subject->setVar($line);
             $body->setVar($line);
+            $body_html->setVar($line);
 
             $message = new \Swift_Message($subject->render());
             $message->setFrom([
@@ -68,6 +72,7 @@ class TaskCommand extends Command
                 $line['email'] => $line['name']
             ]);
             $message->setBody($body->render());
+            if($body_html) $message->addPart($body_html->render(), 'text/html');
 
             $nth++;
             $cache_file = Configuration::getCacheFile($nth);

@@ -45,6 +45,7 @@ class SendCommand extends Command
             $message = unserialize($content);
             if($message) $mailer->send($message);
             unlink($cache_file);
+            sleep(1);
         }, $cache_files);
     }
 }
