@@ -40,12 +40,21 @@ class SendCommand extends Command
         $mailer = new \Swift_Mailer($transport);
 
         $cache_files = Configuration::getCacheFiles();
+        echo "\n";
         array_map(function(string $cache_file)use($mailer){
             $content = file_get_contents($cache_file, false);
             $message = unserialize($content);
-            if($message) $mailer->send($message);
+            if($message){
+                try {
+                    $mailer->send($message);
+                }catch(\Exception $e){
+                    echo $e->getTraceAsString(), "\n";
+                    sleep(120);
+                }
+            }
             unlink($cache_file);
-            sleep(1);
+            sleep(2);
+            echo ".";
         }, $cache_files);
     }
 }
